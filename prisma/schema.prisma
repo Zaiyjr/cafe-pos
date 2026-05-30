@@ -1,0 +1,68 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// 1. ປະເພດສິນຄ້າ (ເຊັ່ນ: ກາເຟ, ຊາ, ເຂົ້າໜົມ)
+model Category {
+  id        String    @id @default(cuid())
+  name      String    @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  products  Product[]
+}
+
+// 2. ລາຍການສິນຄ້າ/ເມນູ
+model Product {
+  id          String      @id @default(cuid())
+  name        String
+  description String?
+  price       Float
+  image       String?     // ເກັບ URL ຂອງຮູບພາບ
+  isAvailable Boolean     @default(true)
+  categoryId  String
+  category    Category    @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  orderItems  OrderItem[]
+}
+
+// 3. ໃບບິນ / ອໍເດີ້ທີ່ຂາຍອອກ
+model Order {
+  id            String      @id @default(cuid())
+  orderNumber   String      @unique // ເຊັ່ນ: CAF-20260528-001
+  totalAmount   Float
+  discount      Float       @default(0)
+  finalAmount   Float
+  paymentMethod String      @default("CASH") // CASH, QR_CODE
+  status        OrderStatus @default(COMPLETED)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  items         OrderItem[]
+}
+
+// 4. ລາຍການສິນຄ້າໃນແຕ່ລະອໍເດີ້ (ກັນລາຄາສິນຄ້າປ່ຽນແປງໃນອະນາຄົດ)
+model OrderItem {
+  id        String   @id @default(cuid())
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+  quantity  Int
+  price     Float    // ບັນທຶກລາຄາ ນະ ເວລາທີ່ຂາຍອັນນັ້ນ
+  createdAt DateTime @default(now())
+}
+
+enum OrderStatus {
+  COMPLETED
+  CANCELLED
+}
