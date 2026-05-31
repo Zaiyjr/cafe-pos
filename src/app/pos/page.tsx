@@ -38,14 +38,14 @@ export default function PosPage() {
     : products.filter(product => product.categoryId === selectedCategoryId);
 
   return (
-    <div className="flex h-screen bg-gray-50 font-sans relative overflow-hidden">
+    <div className="flex flex-col md:flex-row md:h-screen bg-slate-50 font-sans relative overflow-x-hidden md:overflow-hidden">
       
       {/* 🟢 ຝັ່ງຊ້າຍ: UI ສະແດງເມນູສິນຄ້າ ແລະ ແທັບປະເພດ */}
-      <div className="w-2/3 p-6 flex flex-col h-full overflow-hidden">
+      <div className="w-full md:w-2/3 lg:w-3/4 p-4 md:p-6 flex flex-col h-fit md:h-full overflow-y-auto">
         
         {/* Header */}
         <div className="flex justify-between items-center mb-4 shrink-0">
-          <h1 className="text-2xl font-black text-gray-800 tracking-tight">☕ Cafe POS System</h1>
+          <h1 className="text-2xl font-black text-gray-800 tracking-tight">☕ CAFE POS SYSTEM</h1>
         </div>
 
         {/* 🗂️ ແຖບເລືອກປະເພດສິນຄ້າ (Category Tabs) */}
@@ -84,7 +84,7 @@ export default function PosPage() {
               <p className="font-semibold text-sm">ບໍ່ມີລາຍການເມນູໃນປະເພດນີ້</p>
             </div>
           ) : (
-           <div className="grid grid-cols-6 gap-4"> {/* ປັບເປັນ 6 ຄໍລຳ ເພື່ອໃຫ້ Card ເບິ່ງນ້ອຍລົງພໍດີ */}
+           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4"> 
   {filteredProducts.map((product) => (
     <button
       key={product.id}
@@ -92,11 +92,11 @@ export default function PosPage() {
       className="bg-white rounded-xl shadow-sm hover:shadow-md hover:border-blue-400 border border-gray-200 overflow-hidden flex flex-col text-left transition-all group"
     >
       {/* 📷 ສ່ວນສະແດງຮູບພາບ - ປັບ h-32 ໃຫ້ເບິ່ງກະທັດຮັດ */}
-      <div className="w-full h-32 bg-gray-100 relative overflow-hidden">
+      <div className="w-full h-50 bg-gray-100 relative overflow-hidden">
         <img 
           src={product.image || 'https://placehold.co/400x300?text=No+Image'} 
           alt={product.name} 
-          className="w-full   object-cover object-center group-hover:scale-105 transition-transform duration-500"
+          className="w-full h-full  object-cover object-center group-hover:scale-105 transition-transform duration-500"
           onError={(e) => {
             (e.target as HTMLImageElement).src = 'https://placehold.co/400x300?text=No+Image';
           }}

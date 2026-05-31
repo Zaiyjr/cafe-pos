@@ -1,8 +1,8 @@
 export function PosCart({ cart, updateQuantity, getTotalPrice, onCheckout }: any) {
   return (
-    <div className="w-1/3 bg-white border-l border-gray-200 flex flex-col h-full shadow-xl">
+    <div className="w-full md:w-1/3 lg:w-1/4 bg-white border-t md:border-t-0 md:border-l border-slate-200 flex flex-col h-fit md:h-full shadow-2xl sticky bottom-0 z-20">
       <div className="p-5 border-b border-gray-100">
-        <h2 className="text-lg font-bold text-gray-800">🛒 ຕະກ້າສິນຄ້າ ({cart.length})</h2>
+        <h2 className="text-lg font-bold text-gray-800">🛒 ກະຕ່າສິນຄ້າ ({cart.length})</h2>
       </div>
 
       <div className="flex-1 overflow-y-auto p-4 space-y-4">

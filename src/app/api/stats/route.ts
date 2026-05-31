@@ -10,8 +10,12 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     // filter ສໍາລັບກາຟ
     const period = searchParams.get('period') || 'weekly'; 
-    // filter ສໍາລັບປະຫວັດການຂາຍ (ໂຕທີ່ເພີ່ມໃໝ່)
+    // filter ສໍາລັບປະຫວັດການຂາຍ
     const historyPeriod = searchParams.get('historyPeriod') || 'daily'; 
+    
+    // 🚀 1. ຮັບຄ່າຕົວແປວັນທີ ແລະ ເດືອນ ທີ່ສົ່ງມາຈາກ Frontend
+    const selectedDate = searchParams.get('selectedDate');   // ຮູບແບບ 'YYYY-MM-DD'
+    const selectedMonth = searchParams.get('selectedMonth'); // ຮູບແບບ 'YYYY-MM'
 
     const now = new Date();
 
@@ -28,7 +32,7 @@ export async function GET(request: Request) {
     let endDate: Date;
     let history: { date: string; sales: number }[] = [];
     const laoDays = ["ອາທິດ", "ຈັນ", "ອັງຄານ", "ພຸດ", "ພະຫັດ", "ສຸກ", "ເສົາ"];
-    const laoMonths = ["ມັງກອນ", "ກຸມພາ", "ມີນາ", "ເມສາ", "ພຶດສະພາ", "ມິຖຸນາ", "ກໍລະກົດ", "ສິງຫາ", "ກັນຍາ", "ຕຸລາ", "ພະຈິກ", "ທັນວา"];
+    const laoMonths = ["ມັງກອນ", "ກຸມພາ", "ມີນາ", "ເມສາ", "ພຶດສະພາ", "ມິຖຸນາ", "ກໍລະກົດ", "ສິງຫາ", "ກັນຍາ", "ຕຸລາ", "ພະຈິກ", "ທັນວາ"];
 
     if (period === 'yearly') {
       startDate = startOfYear(now);
@@ -89,9 +93,9 @@ export async function GET(request: Request) {
       .slice(0, 5);
 
     // ==========================================
-    // 🚀 ແກ້ໄຂ LOGIC ໃໝ່: ກອງປະຫວັດການຂາຍແຍກຕາມ `historyPeriod`
+    // 🚀 ອັບເດດ LOGIC ໃໝ່: ຮອງຮັບການກອງປະຫວັດການຂາຍແບບເລືອກວັນທີ/ເດືອນອິດສະຫຼະ
     // ==========================================
-    let historyStart: Date;
+    let historyStart: Date = startOfDay(now);
     let historyEnd: Date = now;
 
     if (historyPeriod === 'weekly') {
@@ -100,11 +104,29 @@ export async function GET(request: Request) {
     } else if (historyPeriod === 'monthly') {
       historyStart = startOfMonth(now);
       historyEnd = endOfMonth(now);
+    } else if (historyPeriod === 'custom_date' && selectedDate) {
+      // 📅 ກໍລະນີເລືອກວັນທີເຈາະຈົງ (ເຊັ່ນ: 2026-05-31)
+      historyStart = new Date(selectedDate);
+      historyStart.setHours(0, 0, 0, 0); // ຕັ້ງແຕ່ເວລາ 00:00 ໂມງ
+
+      historyEnd = new Date(selectedDate);
+      historyEnd.setHours(23, 59, 59, 999); // ຈົນຮອດເວລາ 23:59 ໂມງ
+    } else if (historyPeriod === 'custom_month' && selectedMonth) {
+      // 📅 ກໍລະນີເລືອກເດືອນເຈາະຈົງ (ເຊັ່ນ: 2026-05)
+      const [year, month] = selectedMonth.split('-').map(Number);
+      
+      // ວັນທີ 1 ຂອງເດືອນນັ້ນ ເວລາ 00:00 ໂມງ
+      historyStart = new Date(year, month - 1, 1, 0, 0, 0, 0);
+      
+      // ວັນສຸດທ້າຍ ຂອງເດືອນນັ້ນ ເວລາ 23:59 ໂມງ
+      historyEnd = new Date(year, month, 0, 23, 59, 59, 999); 
     } else {
       // Default ແມ່ນ 'daily' (ມື້ນີ້)
       historyStart = startOfDay(now);
+      historyEnd = now;
     }
 
+    // ຄົ້ນຫາ Orders ຕາມຊ່ວງເວລາທີ່ຖືກກອງໄວ້
     const recentOrders = await prisma.order.findMany({
       where: {
         createdAt: {
