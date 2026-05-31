@@ -6,7 +6,7 @@ export default function Home() {
       <div className="max-w-md w-full bg-white rounded-3xl shadow-xl p-8 text-center border border-gray-100">
         <span className="text-5xl">☕</span>
         <h1 className="text-3xl font-bold text-gray-800 mt-4 tracking-tight">
-          Cafe POS System
+          Cafe Management System
         </h1>
         <p className="text-gray-500 mt-2 text-sm">
           ກະລຸນາເລືອກລະບົບທີ່ທ່ານຕ້ອງການໃຊ້ງານ
@@ -31,7 +31,7 @@ export default function Home() {
         </div>
 
         <div className="mt-8 pt-6 border-t border-gray-100 text-xs text-gray-400">
-          ພັດທະນາດ້ວຍ Next.js + Tailwind CSS & Neon PostgreSQL
+          ພັດທະນາໂດຍ <strong>Zaiy.DEV</strong>
         </div>
       </div>
     </div>
