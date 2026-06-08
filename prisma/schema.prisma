@@ -66,3 +66,13 @@ enum OrderStatus {
   COMPLETED
   CANCELLED
 }
+
+// ເຈົ້າຂອງຮ້ານ (ບໍ່ມີພະນັກງານ — ໃຊ້ login ເພື່ອເບິ່ງຍອດຂາຍ)
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

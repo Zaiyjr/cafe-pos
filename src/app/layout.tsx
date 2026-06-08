@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Noto_Sans_Lao } from "next/font/google";
+import { Providers } from "@/components/providers";
 import "./globals.css";
 
 // ດຶງຟອນ Noto Sans Lao ມາໃຊ້
@@ -25,7 +26,7 @@ export default function RootLayout({
       className={`${notoLaos.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans bg-gray-50 text-zinc-900">
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

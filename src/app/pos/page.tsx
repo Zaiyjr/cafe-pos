@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { usePos } from './hooks/usePos';
 import { PosCart } from '@/components/posCart';
+import { PosHeader } from '@/components/posHeader';
 
 export default function PosPage() {
   // 🚀 ດຶງຂໍ້ມູນ ແລະ Logic ທັງໝົດມາຈາກ Hook ທີ່ເຮົາອັບເດດໃໝ່
@@ -43,10 +44,7 @@ export default function PosPage() {
       {/* 🟢 ຝັ່ງຊ້າຍ: UI ສະແດງເມນູສິນຄ້າ ແລະ ແທັບປະເພດ */}
       <div className="w-full md:w-2/3 lg:w-3/4 p-4 md:p-6 flex flex-col h-fit md:h-full overflow-y-auto">
         
-        {/* Header */}
-        <div className="flex justify-between items-center mb-4 shrink-0">
-          <h1 className="text-2xl font-black text-gray-800 tracking-tight">☕ CAFE POS SYSTEM</h1>
-        </div>
+        <PosHeader />
 
         {/* 🗂️ ແຖບເລືອກປະເພດສິນຄ້າ (Category Tabs) */}
         <div className="flex gap-2 overflow-x-auto pb-3 mb-4 shrink-0 no-scrollbar">

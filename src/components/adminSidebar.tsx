@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { LayoutDashboard, Package, ArrowLeftRight, Coffee, X } from 'lucide-react';
+import { LogoutButton } from '@/components/logoutButton';
 
 // 🚀 ເພີ່ມ Interface Props ເພື່ອຮັບຄ່າການເປີດ/ປິດ ຈາກໜ້າຫຼັກ (Admin Page)
 interface SidebarProps {
@@ -79,7 +80,7 @@ export function AdminSidebar({ isOpen, onClose }: SidebarProps) {
         </nav>
 
         {/* Footer / Exit Section */}
-        <div className="border-t border-slate-800 pt-5">
+        <div className="border-t border-slate-800 pt-5 space-y-1">
           <Link 
             href="/pos" 
             className="flex items-center gap-3 py-3 px-4 text-blue-400 hover:bg-blue-950/40 rounded-xl transition-all font-bold text-sm group"
@@ -87,6 +88,7 @@ export function AdminSidebar({ isOpen, onClose }: SidebarProps) {
             <ArrowLeftRight size={18} className="group-hover:-translate-x-1 transition-transform" />
             <span>ກັບໄປໜ້າ POS</span>
           </Link>
+          <LogoutButton className="w-full py-3 px-4 text-red-400 hover:bg-red-950/40 rounded-xl font-bold text-sm hover:text-red-300" />
         </div>
       </aside>
     </>
