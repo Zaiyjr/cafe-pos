@@ -108,12 +108,30 @@ export default function PosPage() {
       {/* 📝 ສ່ວນຂໍ້ມູນ */}
       <div className="p-3 flex flex-col flex-1 justify-between">
         <div>
-          <div className="text-sm font-semibold ">
+          <div className="text-sm font-semibold text-gray-800 line-clamp-2">
             {product.name}
           </div>
         </div>
-        <div className="text-blue-600 font-black text-right text-sm mt-2">
-          {product.price.toLocaleString()}
+        
+        {/* ຈັດການວາງແຖວໃໝ່: ລາຄາຢູ່ຊ້າຍ, ປຸ່ມບວກຢູ່ຂວາ */}
+        <div className="flex items-center justify-between mt-2 pt-1 border-t border-gray-50">
+          <div className="text-blue-600 font-black text-sm">
+            {product.price.toLocaleString()} ກີບ
+          </div>
+          
+          {/* ປຸ່ມບວກ (ເພີ່ມເພື່ອຄວາມສວຍງາມ ແລະ ບອກໃຫ້ User ຮູ້ວ່າກົດເພີ່ມໄດ້) */}
+          <div className="bg-blue-50 text-blue-600 group-hover:bg-blue-600 group-hover:text-white font-bold w-7 h-7 flex items-center justify-center rounded-full transition-all duration-300 shadow-sm active:scale-95">
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              fill="none" 
+              viewBox="0 0 24 24" 
+              strokeWidth={3} 
+              stroke="currentColor" 
+              className="w-4 h-4"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+          </div>
         </div>
       </div>
     </button>
@@ -153,7 +171,7 @@ export default function PosPage() {
                 {/* 🖼️ ຕົວ QR Code (ແປງຍອດເງິນເຂົ້າລິ້ງອັດຕະໂນມັດ) */}
                 <div className="flex items-center justify-center p-3 bg-white border border-gray-100 rounded-2xl shadow-inner w-56 h-56 mx-auto relative">
                   <img 
-                    src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=CafePOS_Amount_${getTotalPrice()}`} 
+                    src={`/QR.jpg?amount=${getTotalPrice()}`} 
                     alt="Payment QR Code" 
                     className="w-full h-full object-contain"
                   />

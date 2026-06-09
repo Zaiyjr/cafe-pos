@@ -1,3 +1,5 @@
+import { Trash } from "lucide-react";
+
 export function PosCart({ cart, updateQuantity, getTotalPrice, onCheckout }: any) {
   return (
     <div className="w-full md:w-1/3 lg:w-1/4 bg-white border-t md:border-t-0 md:border-l border-slate-200 flex flex-col h-fit md:h-full shadow-2xl sticky bottom-0 z-20">
@@ -33,6 +35,11 @@ export function PosCart({ cart, updateQuantity, getTotalPrice, onCheckout }: any
                 <span className="font-bold w-6 text-center">{item.quantity}</span>
                 <button onClick={() => updateQuantity(item.id, item.quantity + 1)} className="w-7 h-7 bg-white rounded-lg border flex items-center justify-center hover:bg-gray-100">+</button>
               </div>
+
+              {/* trash icon ສໍາລັບລົບລາຍການ */}
+              <button onClick={() => updateQuantity(item.id, 0)} className="ml-2 text-red-500 hover:text-red-700 transition">
+                <Trash size={20} />
+              </button>
             </div>
           ))
         )}
